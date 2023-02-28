@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!--bring in my ViewModel-->
+@model BooksViewModel
+<h1>Amazon Online Bookstore</h1>
+
+@foreach (Book b in Model.Books)
+{
+    <partial name="BookSummary" model="b" />
+}
+<!--pass in paging info here-->
+<div page-model="@Model.PageInfo" page-action="Index" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-outline-dark"
+     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+</div>
+
