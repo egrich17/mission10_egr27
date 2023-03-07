@@ -78,6 +78,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5rem;
 }
 
+
 p {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -6538,7 +6539,9 @@ button.bg-success:focus {
 }
 
 .bg-info {
-  background-color: #17a2b8 !important;
+  --bs-bg-opacity: .75;
+  background-color: rgba((var(--bs-info-rgb), var(--bs-bg-opacity)) !important;
+
 }
 
 a.bg-info:hover, a.bg-info:focus,

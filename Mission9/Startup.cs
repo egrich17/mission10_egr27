@@ -34,6 +34,13 @@ namespace Mission9
 
             // each http request gets its own repository object (decoupling)
             services.AddScoped<IBookRepository, EFBookRepository>();
+
+            services.AddRazorPages();
+
+            // add caching services
+            services.AddDistributedMemoryCache();
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,12 +51,33 @@ namespace Mission9
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
+            // set up different endpoints depending on user navigation
             app.UseEndpoints(endpoints =>
             {
+                // if we have book type and page num
+                endpoints.MapControllerRoute("typepage",
+                    "{bookType}/Page{pageNum}",
+                    new { Controller = "Home", action = "Index" });
+
+                // if we have pageNum only
+                endpoints.MapControllerRoute(
+                    name: "Paging",
+                    pattern: "Page{pageNum}",
+                    defaults: new { Controller = "Home", action = "Index", pageNum = 1});
+
+                // if we have type only
+                endpoints.MapControllerRoute("type",
+                    "{bookType}",
+                    new { Controller = "Home", action = "Index", pageNum = 1 });
+
+                // default
                 endpoints.MapDefaultControllerRoute();
+
+                // enable razor pages
+                endpoints.MapRazorPages();
             });
         }
     }

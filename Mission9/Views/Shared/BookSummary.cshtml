@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
 
 @model Book
@@ -19,5 +16,11 @@
     <div class="card-text p-1">@Model.Isbn</div>
     <div class="card-text p-1">@Model.Classification</div>
     <div class="card-text p-1">@Model.Category</div>
+
+    <form method="post" asp-page="/Buy">
+        <input type="hidden" asp-for="@Model.BookId"/>
+        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+        <button type="submit" class="btn btn-success btn-sm" style="float:right">Buy</button>
+    </form>
 
 </div>
