@@ -13,14 +13,13 @@ namespace Mission9.Pages
     {
         // create instance of our repository so we can pull book data
         private IBookRepository repo { get; set; }
-
-        public BuyModel (IBookRepository temp)
-        {
-            repo = temp;
-        }
-
         // create instance of basket
         public Basket basket { get; set; }
+        public BuyModel (IBookRepository temp, Basket b)
+        {
+            repo = temp;
+            basket = b;
+        }
 
         // instance of return Url
         public string ReturnUrl { get; set; }
@@ -28,20 +27,23 @@ namespace Mission9.Pages
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
         }
 
         public IActionResult OnPost(int bookId, string returnUrl)
         {
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookId);
 
-            basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
             basket.AddItem(b, 1);
-
-            HttpContext.Session.SetJson("basket", basket);
 
             // redirect to our return url so that the user can continue shopping
             return RedirectToPage(new { ReturnUrl = returnUrl});
+        }
+        // when "delete" form is submitted, update our basket and redirect user to returnUrl that is passed in
+        public IActionResult OnPostRemove(int bookId, string returnUrl)
+        {
+            basket.RemoveItem(basket.Items.First(x => x.Book.BookId == bookId).Book);
+
+            return RedirectToPage(new { ReturnUrl = returnUrl });
         }
     }
 }

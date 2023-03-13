@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="p-3 mb-2 bg-info bg-transparent-50">
-        <div class="bg-dark text-white p-2">
-            <span class="navbar-brand ml-2">Amazon Book Store</span>
+    <div class="bg-dark text-white p-2">
+        <div class="container-fluid">
+            <div class="row">
+                <span class="col navbar-brand">Amazon Book Store</span>
+                <div class="col-2 text-right">
+                    <vc:cart-summary/>
+                </div>
+            </div>
         </div>
+    </div>
         <div class="row m-1 p-1">
             <div id="categories" class="col-3">
                 <vc:types></vc:types>
@@ -19,6 +26,5 @@
                 @RenderBody()
             </div>
         </div>
-    </div>
 </body>
 </html>

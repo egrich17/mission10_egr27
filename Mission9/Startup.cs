@@ -35,12 +35,21 @@ namespace Mission9
             // each http request gets its own repository object (decoupling)
             services.AddScoped<IBookRepository, EFBookRepository>();
 
+            // use purchase repository
+            services.AddScoped<IPurchaseRepository, EFPurchaseRepository>();
+
             services.AddRazorPages();
 
             // add caching services
             services.AddDistributedMemoryCache();
 
             services.AddSession();
+
+            // when we're talking about a basket, we are calling the get basket method
+            services.AddScoped<Basket>(x => SessionBasket.GetBasket(x));
+
+            // provide access to current Http context if there is one
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

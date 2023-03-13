@@ -22,22 +22,35 @@
                 <td>@i.Book.Title</td>
                 <td>@i.Quantity</td>
                 <td>@i.Book.Price</td>
-                <td>@i.Quantity * @i.Book.Price</td>
+                <td>@((i.Quantity * @i.Book.Price).ToString("C"))</td>
+          
+
+                <!--add a delete button-->
+                <!--use a form so we can gather multiple pieces of info-->
+                <!--form will post to the razor page model, not the controller-->
+            <td class="text-center">
+                <form method="post" asp-page-handler="Remove">
+                    <input type="hidden" name="bookId" value="@i.Book.BookId" />
+                    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                </form>
+            </td>
             </tr>
-        }
-    </tbody>
+    }
+        </tbody>
 
-    <!-- calculate book cart total-->
-    <tfoot>
-        <tr>
-            <td colspan="3">Your Total:</td>
-            <td>@Model.basket.CalculateTotal().ToString("c")</td>
-        </tr>
-    </tfoot>
+        <!-- calculate book cart total-->
+        <tfoot>
+            <tr>
+                <td colspan="3">Your Total:</td>
+                <td>@Model.basket.CalculateTotal().ToString("c")</td>
+            </tr>
+        </tfoot>
 
-</table>
+    </table>
 
 <!-- continue shopping button-->
 <div>
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue Shopping</a>
+    <a class="btn btn-primary" asp-controller="Purchase" asp-action="Checkout">Checkout</a>
 </div>
